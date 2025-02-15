@@ -47,8 +47,8 @@
             particles = [];
             for (let y = 0; y <= h; y += particleDistance) {
                 for (let x = 0; x <= w; x += particleDistance) {
-                    let randomOffsetX = (Math.random() - 0.5) * 30; // Adds random offset to X
-                    let randomOffsetY = (Math.random() - 0.5) * 30; // Adds random offset to Y
+                    let randomOffsetX = (Math.random() - 0.5) * 90; // Adds random offset to X
+                    let randomOffsetY = (Math.random() - 0.5) * 90; // Adds random offset to Y
                     particles.push(new Particle(x + randomOffsetX, y + randomOffsetY));
                 }
             }
