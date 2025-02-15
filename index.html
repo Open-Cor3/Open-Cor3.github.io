@@ -66,7 +66,7 @@
           let dy = particle.y - particles[i].y;
           let distance = Math.sqrt(dx * dx + dy * dy);
           if (distance < 50) {
-            ctx.strokeStyle = "rgba(175,50,50,0.1)";
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
             ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
@@ -95,7 +95,7 @@
           this.speed = (Math.random() * 0.001) + 0.001; // 
         }
         draw() {
-          ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+          ctx.fillStyle = "rgba(255, 255, 255, 0)";
           ctx.beginPath();
           ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
           ctx.closePath();
