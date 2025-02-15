@@ -28,7 +28,7 @@
         const ctx = canvas.getContext("2d");
 
         let w, h, particles;
-        let particleDistance = 40;
+        let particleDistance = 70;
         let mouse = {
             x: undefined,
             y: undefined,
@@ -45,11 +45,11 @@
             h = canvas.height = window.innerHeight;
 
             particles = [];
-            for (let y = (((h - particleDistance) % particleDistance) + particleDistance) / 2; y < h; y +=
-                particleDistance) {
-                for (let x = (((w - particleDistance) % particleDistance) + particleDistance) / 2; x < w; x +=
-                    particleDistance) {
-                    particles.push(new Particle(x, y));
+            for (let y = 0; y <= h; y += particleDistance) {
+                for (let x = 0; x <= w; x += particleDistance) {
+                    let randomOffsetX = (Math.random() - 0.5) * 30; // Adds random offset to X
+                    let randomOffsetY = (Math.random() - 0.5) * 30; // Adds random offset to Y
+                    particles.push(new Particle(x + randomOffsetX, y + randomOffsetY));
                 }
             }
         }
@@ -65,23 +65,31 @@
                 particles[i].update();
                 particles[i].draw();
             }
-            drawLine();
+            drawMouseLines();
         }
 
-        function drawLine() {
-            for (let a = 0; a < particles.length; a++) {
-                for (let b = a; b < particles.length; b++) {
-                    let dx = particles[a].x - particles[b].x;
-                    let dy = particles[a].y - particles[b].y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
+        function drawMouseLines() {
+            if (mouse.x === undefined || mouse.y === undefined) return;
 
-                    if (distance < particleDistance * 1.5) {
-                        ctx.strokeStyle = "rgba(155, 155, 155, 0.6)";
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.stroke();
+            for (let a = 0; a < particles.length; a++) {
+                let dx = mouse.x - particles[a].x;
+                let dy = mouse.y - particles[a].y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < mouse.radius) {
+                    for (let b = a + 1; b < particles.length; b++) {
+                        let dx2 = mouse.x - particles[b].x;
+                        let dy2 = mouse.y - particles[b].y;
+                        let distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+
+                        if (distance2 < mouse.radius) {
+                            ctx.strokeStyle = "rgba(155, 155, 155, 0.6)";
+                            ctx.lineWidth = 1;
+                            ctx.beginPath();
+                            ctx.moveTo(particles[a].x, particles[a].y);
+                            ctx.lineTo(particles[b].x, particles[b].y);
+                            ctx.stroke();
+                        }
                     }
                 }
             }
@@ -105,6 +113,7 @@
                 this.baseX = this.x;
                 this.baseY = this.y;
                 this.speed = (Math.random() * 5) + 1;
+                this.jitter = Math.random() * 2; // Small jitter effect
             }
             draw() {
                 ctx.fillStyle = "rgba(255,255,255,1)";
@@ -118,15 +127,15 @@
                 let dy = mouse.y - this.y;
                 let distance = Math.sqrt(dx * dx + dy * dy);
                 let maxDistance = mouse.radius;
-                let force = (maxDistance - distance) / maxDistance; // 0 ~ 1
+                let force = (maxDistance - distance) / maxDistance;
                 let forceDirectionX = dx / distance;
                 let forceDirectionY = dy / distance;
                 let directionX = forceDirectionX * force * this.speed;
                 let directionY = forceDirectionY * force * this.speed;
 
                 if (distance < mouse.radius) {
-                    this.x -= directionX;
-                    this.y -= directionY;
+                    this.x -= directionX + (Math.random() - 0.5) * this.jitter;
+                    this.y -= directionY + (Math.random() - 0.5) * this.jitter;
                 } else {
                     if (this.x !== this.baseX) {
                         let dx = this.x - this.baseX;
@@ -146,4 +155,5 @@
         window.addEventListener("mouseout", mouseout);
     </script>
 </body>
+
 </html>
