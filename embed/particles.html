@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .p {
+      position: absolute;
+      top: -6px;
+      left: -3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles">
+    <div class="p" id="p0"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+
+  <script>
+    var numP = 60;
+
+    for (var i = 1; i < numP; i++) {
+      var _p = document.getElementById('p0').cloneNode(false);
+      _p.id = "p" + i;
+      document.getElementById('particles').appendChild(_p);
+      gsap.set(_p, {
+        scale: 0.5 + 1.5 * Math.random(),
+        alpha: 0.25 + Math.random(),
+        x: window.innerWidth / 2 + (-40 + 80 * Math.random()),
+        y: window.innerHeight / 2 + (-40 + 80 * Math.random())
+      });
+    }
+
+    window.addEventListener('mousemove', move);
+
+    function move(e) {
+      for (var ii = 1; ii < numP; ii++) {
+        gsap.to('#p' + ii, {
+          duration: 0.5,
+          delay: 0.005 * ii,
+          bezier: {
+            type: 'thru',
+            values: [
+              {
+                x: e.clientX + 25 - 50 * Math.random(),
+                y: e.clientY + 25 - 50 * Math.random()
+              },
+              {
+                x: e.clientX,
+                y: e.clientY
+              }
+            ]
+          },
+          ease: "back.out(3)"
+        });
+        gsap.to('#p' + ii, {
+          duration: 0.005 * ii,
+          scale: 4
+        });
+        gsap.to('#p' + ii, {
+          duration: 0.5,
+          delay: 0.005 * ii,
+          scale: 0
+        });
+      }
+    }
+  </script>
+</body>
+</html>
