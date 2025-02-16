@@ -22,6 +22,7 @@
       height: 10px;
       border-radius: 50%;
       background: radial-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+      pointer-events: none;
     }
   </style>
 </head>
@@ -70,10 +71,12 @@
           },
           ease: "back.out(3)"
         });
+
         gsap.to('#p' + ii, {
           duration: 0.005 * ii,
           scale: 4
         });
+
         gsap.to('#p' + ii, {
           duration: 0.5,
           delay: 0.005 * ii,
