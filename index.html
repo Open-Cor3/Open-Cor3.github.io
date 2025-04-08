@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Skins Showcase</title>
+    <style>
+        :root {
+            --primary-glow: #8e54e9;
+            --secondary-glow: #4776e6;
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            background: radial-gradient(circle at 50% 50%, rgba(142, 84, 233, 0.15), transparent 70%),
+                        linear-gradient(to bottom, var(--bg-dark), var(--bg-dark));
+        }
+        
+        header {
+            text-align: center;
+            margin: 20px 0 40px;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(142, 84, 233, 0.3);
+        }
+        
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+        
+        .search-container {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: rgba(30, 30, 30, 0.7);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 
+                        0 0 0 1px rgba(255, 255, 255, 0.05),
+                        0 0 30px rgba(142, 84, 233, 0.2);
+            animation: glow 3s infinite alternate;
+        }
+        
+        @keyframes glow {
+            0% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 
+                            0 0 0 1px rgba(255, 255, 255, 0.05),
+                            0 0 30px rgba(142, 84, 233, 0.2);
+            }
+            100% {
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 
+                            0 0 0 1px rgba(255, 255, 255, 0.05),
+                            0 0 40px rgba(142, 84, 233, 0.4);
+            }
+        }
+        
+        .search-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .search-field {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(15, 15, 15, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-glow);
+            box-shadow: 0 0 0 2px rgba(142, 84, 233, 0.3);
+        }
+        
+        .skins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .skin-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .skin-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3),
+                        0 0 20px rgba(142, 84, 233, 0.4);
+        }
+        
+        .skin-image {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 10, 10, 0.5);
+        }
+        
+        .skin-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+        }
+        
+        .skin-card:hover .skin-image img {
+            transform: scale(1.1);
+        }
+        
+        .skin-details {
+            padding: 20px;
+        }
+        
+        .skin-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .rarity-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .mythic {
+            background: linear-gradient(45deg, #ff00cc, #333399);
+            color: white;
+        }
+        
+        .legendary {
+            background: linear-gradient(45deg, #F7971E, #FFD200);
+            color: black;
+        }
+        
+        .rare {
+            background: linear-gradient(45deg, #00c6ff, #0072ff);
+            color: white;
+        }
+        
+        .common {
+            background: linear-gradient(45deg, #8e9eab, #eef2f3);
+            color: black;
+        }
+        
+        .uncommon {
+            background: linear-gradient(45deg, #56ab2f, #a8e063);
+            color: black;
+        }
+        
+        .skin-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 2px;
+        }
+        
+        .info-value {
+            font-weight: 600;
+        }
+        
+        .value-badge {
+            font-weight: 700;
+        }
+        
+        .high {
+            color: #4caf50;
+        }
+        
+        .medium {
+            color: #ffab00;
+        }
+        
+        .low {
+            color: #f44336;
+        }
+        
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 30px;
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+        
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .search-row {
+                flex-direction: column;
+            }
+            
+            .skins-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+        
+        /* Ensure animations play at different times */
+        .skin-card:nth-child(2n) {
+            animation-delay: 0.1s;
+        }
+        
+        .skin-card:nth-child(3n) {
+            animation-delay: 0.2s;
+        }
+        
+        .skin-card:nth-child(4n) {
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Game Skins Showcase</h1>
+        <p class="subtitle">Browse and search your favorite game skins</p>
+    </header>
+    
+    <div class="search-container">
+        <div class="search-row">
+            <div class="search-field">
+                <input type="text" id="name-search" placeholder="Search by name..." />
+            </div>
+            <div class="search-field">
+                <select id="rarity-filter">
+                    <option value="">All Rarities</option>
+                    <option value="mythic">Mythic</option>
+                    <option value="legendary">Legendary</option>
+                    <option value="rare">Rare</option>
+                    <option value="uncommon">Uncommon</option>
+                    <option value="common">Common</option>
+                </select>
+            </div>
+        </div>
+        <div class="search-row">
+            <div class="search-field">
+                <select id="value-filter">
+                    <option value="">All Values</option>
+                    <option value="high">High Value</option>
+                    <option value="medium">Medium Value</option>
+                    <option value="low">Low Value</option>
+                </select>
+            </div>
+            <div class="search-field">
+                <select id="demand-filter">
+                    <option value="">All Demand</option>
+                    <option value="high">High Demand</option>
+                    <option value="medium">Medium Demand</option>
+                    <option value="low">Low Demand</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <div class="skins-grid" id="skins-grid">
+
+    </div>
+    
+    <footer>
+        War Tycoon Skins Values © 2025 | All game assets belong to their respective owners
+    </footer>
+    
+    <script>
+        // Sample skin data - in a real application, this would come from your database
+        const skins = [
+            {
+                id: 1,
+                name: "Dragon Slayer",
+                image: "/api/placeholder/300/180",
+                rarity: "mythic",
+                value: "high",
+                demand: "high",
+                price: "2500"
+            },
+            {
+                id: 2,
+                name: "Shadow Assassin",
+                image: "/api/placeholder/300/180",
+                rarity: "legendary",
+                value: "high",
+                demand: "medium",
+                price: "1200"
+            },
+            {
+                id: 3,
+                name: "Arctic Wolf",
+                image: "/api/placeholder/300/180",
+                rarity: "rare",
+                value: "medium",
+                demand: "high",
+                price: "750"
+            },
+            {
+                id: 4,
+                name: "Emerald Knight",
+                image: "/api/placeholder/300/180",
+                rarity: "uncommon",
+                value: "medium",
+                demand: "medium",
+                price: "350"
+            },
+            {
+                id: 5,
+                name: "Desert Wanderer",
+                image: "/api/placeholder/300/180",
+                rarity: "common",
+                value: "low",
+                demand: "low",
+                price: "100"
+            },
+            {
+                id: 6,
+                name: "Inferno Dragon",
+                image: "/api/placeholder/300/180",
+                rarity: "mythic",
+                value: "high",
+                demand: "high",
+                price: "2800"
+            },
+            {
+                id: 7,
+                name: "Celestial Guardian",
+                image: "/api/placeholder/300/180",
+                rarity: "legendary",
+                value: "high",
+                demand: "medium",
+                price: "1500"
+            },
+            {
+                id: 8,
+                name: "Toxic Avenger",
+                image: "/api/placeholder/300/180",
+                rarity: "rare",
+                value: "medium",
+                demand: "low",
+                price: "400"
+            },
+            {
+                id: 9,
+                name: "Neon Rider",
+                image: "/api/placeholder/300/180",
+                rarity: "uncommon",
+                value: "low",
+                demand: "high",
+                price: "300"
+            },
+            {
+                id: 10,
+                name: "Urban Camo",
+                image: "/api/placeholder/300/180",
+                rarity: "common",
+                value: "low",
+                demand: "medium",
+                price: "120"
+            }
+        ];
+
+        // DOM elements
+        const skinsGrid = document.getElementById('skins-grid');
+        const nameSearch = document.getElementById('name-search');
+        const rarityFilter = document.getElementById('rarity-filter');
+        const valueFilter = document.getElementById('value-filter');
+        const demandFilter = document.getElementById('demand-filter');
+
+        // Function to render the skins
+        function renderSkins(skinsToRender) {
+            skinsGrid.innerHTML = '';
+            
+            if (skinsToRender.length === 0) {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.textContent = 'No skins found matching your criteria';
+                skinsGrid.appendChild(noResults);
+                return;
+            }
+            
+            skinsToRender.forEach((skin, index) => {
+                const skinCard = document.createElement('div');
+                skinCard.className = 'skin-card';
+                skinCard.style.animationDelay = `${index * 0.1}s`;
+                
+                skinCard.innerHTML = `
+                    <div class="skin-image">
+                        <img src="${skin.image}" alt="${skin.name}">
+                    </div>
+                    <div class="skin-details">
+                        <div class="skin-name">
+                            ${skin.name}
+                            <span class="rarity-badge ${skin.rarity}">${skin.rarity}</span>
+                        </div>
+                        <div class="skin-info">
+                            <div class="info-item">
+                                <span class="info-label">Value</span>
+                                <span class="info-value value-badge ${skin.value}">${skin.value}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Demand</span>
+                                <span class="info-value value-badge ${skin.demand}">${skin.demand}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Price</span>
+                                <span class="info-value">${skin.price}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                skinsGrid.appendChild(skinCard);
+            });
+        }
+
+        // Filter function
+        function filterSkins() {
+            const nameQuery = nameSearch.value.toLowerCase();
+            const rarityQuery = rarityFilter.value;
+            const valueQuery = valueFilter.value;
+            const demandQuery = demandFilter.value;
+            
+            const filteredSkins = skins.filter(skin => {
+                // Check if skin matches all filters
+                if (nameQuery && !skin.name.toLowerCase().includes(nameQuery)) {
+                    return false;
+                }
+                
+                if (rarityQuery && skin.rarity !== rarityQuery) {
+                    return false;
+                }
+                
+                if (valueQuery && skin.value !== valueQuery) {
+                    return false;
+                }
+                
+                if (demandQuery && skin.demand !== demandQuery) {
+                    return false;
+                }
+                
+                return true;
+            });
+            
+            renderSkins(filteredSkins);
+        }
+
+        // Add event listeners
+        nameSearch.addEventListener('input', filterSkins);
+        rarityFilter.addEventListener('change', filterSkins);
+        valueFilter.addEventListener('change', filterSkins);
+        demandFilter.addEventListener('change', filterSkins);
+
+        // Initial render
+        renderSkins(skins);
+    </script>
+</body>
+</html>
