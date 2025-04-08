@@ -243,7 +243,10 @@
         }
         
         .low {
-            color: #f44336;
+            color: #ff0066;
+        }
+        .verylow {
+            color: #ff0000;
         }
         
         .no-results {
@@ -317,6 +320,7 @@
                     <option value="high">High Value</option>
                     <option value="medium">Medium Value</option>
                     <option value="low">Low Value</option>
+                    <option value="verylow">Low Value</option>
                 </select>
             </div>
             <div class="search-field">
@@ -325,6 +329,7 @@
                     <option value="high">High Demand</option>
                     <option value="medium">Medium Demand</option>
                     <option value="low">Low Demand</option>
+                    <option value="verylow">Low Demand</option>
                 </select>
             </div>
         </div>
@@ -381,10 +386,19 @@
                 id: 5,
                 name: "Phantom Drift",
                 image: "Assets/Skins/PhantomDrift.png",
-                rarity: "limited",
+                rarity: "legendary",
                 value: "low",
                 demand: "low",
                 price: "150-220"
+            },
+            {
+                id: 6,
+                name: "Shadow",
+                image: "Assets/Skins/Shadow.png",
+                rarity: "legendary",
+                value: "verylow",
+                demand: "low",
+                price: "1-6"
             }
         ];
 
