@@ -64,15 +64,6 @@ body {
     color: var(--primary-glow);
 }
 
-.disclaimer {
-    background-color: #f8f8f8;
-    color: #666;
-    text-align: center;
-    padding: 8px;
-    font-size: 0.9rem;
-    border-bottom: 1px solid #ddd;
-}
-
 .nav-links {
     display: flex;
     list-style: none;
