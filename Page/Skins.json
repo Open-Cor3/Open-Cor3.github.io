@@ -165,7 +165,7 @@
       "image": "Assets/Skins/Nebula.png",
       "rarity": "limited",
       "value": "veryhigh",
-      "demand": "high",
+      "demand": "veryhigh",
       "price": "4.4k-5.5k🥇",
       "avgPrice": 4950
     },
@@ -174,10 +174,10 @@
       "name": "Pulse",
       "image": "Assets/Skins/Pulse.png",
       "rarity": "limited",
-      "value": "veryhigh",
-      "demand": "high",
-      "price": "4.4k-5.5k🥇",
-      "avgPrice": 4950
+      "value": "high",
+      "demand": "low",
+      "price": "500 - 400🥇",
+      "avgPrice": 450
     },
     {
       "id": 19,
@@ -195,7 +195,7 @@
       "image": "Assets/Skins/Doppler.png",
       "rarity": "legendary",
       "value": "low",
-      "demand": "high",
+      "demand": "veryhigh",
       "price": "120-150🥇",
       "avgPrice": 135
     },
