@@ -12,6 +12,9 @@
             --card-bg: #161622;
             --text-color: #f5f5f5;
             --overlay-bg: rgba(0, 0, 0, 0.85);
+            --header-height: 60px;
+            --border-color: rgba(142, 84, 233, 0.2);
+            --button-hover: rgba(142, 84, 233, 0.7);
         }
         
         * {
@@ -25,14 +28,14 @@
             background-color: var(--bg-dark);
             color: var(--text-color);
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
+            margin: 0;
             background: 
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234776e6' fill-opacity='0.07'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
                 radial-gradient(circle at 50% 50%, rgba(142, 84, 233, 0.15), transparent 70%),
                 linear-gradient(to bottom, var(--bg-dark), var(--bg-dark));
             position: relative;
         }
-
         
         /* Topbar Navigation */
         .topbar {
@@ -105,9 +108,25 @@
             border-radius: 3px;
         }
         
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main content */
+        .content {
+            padding: 100px 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
         header {
             text-align: center;
-            margin: 20px 0 40px;
+            margin: 0 0 40px;
             position: relative;
         }
         
@@ -128,7 +147,7 @@
         }
         
         .search-container {
-            max-width: 700px;
+            max-width: 1000px;
             margin: 0 auto 30px;
             display: flex;
             flex-direction: column;
@@ -165,6 +184,7 @@
         .search-field {
             flex: 1;
             min-width: 200px;
+            position: relative;
         }
         
         input, select {
@@ -185,17 +205,36 @@
             box-shadow: 0 0 0 2px rgba(142, 84, 233, 0.3);
         }
 
-        select {
+        /* Custom select styling */
+        .custom-select {
+            position: relative;
+            display: block;
+        }
+        
+        .custom-select select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238e54e9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 12px center;
             padding-right: 40px;
+            cursor: pointer;
+        }
+        
+        .select-arrow {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--primary-glow);
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .custom-select:hover .select-arrow {
+            transform: translateY(-50%) translateY(2px);
         }
         
         .skins-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 40px;
         }
@@ -256,7 +295,7 @@
         .skin-name {
             font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -304,7 +343,7 @@
         .skin-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
+            gap: 12px;
             margin-top: 12px;
         }
         
@@ -316,11 +355,12 @@
         .info-label {
             font-size: 0.8rem;
             color: #888;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
         }
         
         .info-value {
             font-weight: 600;
+            font-size: 0.95rem;
         }
         
         .value-badge {
@@ -350,11 +390,12 @@
         .no-results {
             text-align: center;
             grid-column: 1 / -1;
-            padding: 30px;
+            padding: 40px;
             background: rgba(22, 22, 34, 0.85);
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 1.1rem;
             color: #aaa;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         footer {
@@ -394,7 +435,7 @@
             max-width: 800px;
             background: var(--card-bg);
             border-radius: 15px;
-            padding: 20px;
+            padding: 25px;
             transform: scale(0.9);
             transition: transform 0.3s;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
@@ -408,13 +449,13 @@
         
         .modal-close {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: rgba(142, 84, 233, 0.2);
             border: none;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -432,10 +473,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             background: rgba(10, 10, 18, 0.7);
             border-radius: 10px;
-            padding: 20px;
+            padding: 25px;
             min-height: 300px;
         }
         
@@ -469,14 +510,48 @@
             font-size: 1.2rem;
             font-weight: 600;
         }
+
+        /* Add to trade button in modal */
+        .trade-actions {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
         
+        .trade-action-btn {
+            padding: 12px 25px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, rgba(142, 84, 233, 0.8), rgba(71, 118, 230, 0.8));
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .trade-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(142, 84, 233, 0.4);
+            background: linear-gradient(45deg, rgba(142, 84, 233, 1), rgba(71, 118, 230, 1));
+        }
+        
+        .trade-action-btn i {
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             .search-row {
                 flex-direction: column;
             }
             
             .skins-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
             }
             
             .modal-content {
@@ -491,9 +566,41 @@
             .modal-details {
                 grid-template-columns: 1fr;
             }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: var(--header-height);
+                left: 0;
+                right: 0;
+                background: rgba(10, 10, 18, 0.95);
+                padding: 10px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nav-links.active li {
+                margin: 5px 10px;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .topbar {
+                padding: 0 15px;
+            }
+            
+            .content {
+                padding: 80px 15px 30px;
+            }
         }
         
-        /* Ensure animations play at different times */
+        /* Animations timing */
         .skin-card:nth-child(2n) {
             animation-delay: 0.1s;
         }
@@ -508,65 +615,105 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>War Tycoon Skin Values</h1>
-        <p class="subtitle">Browse and search your favorite game skins</p>
-    </header>
-    
-    <div class="search-container">
-        <div class="search-row">
-            <div class="search-field">
-                <input type="text" id="name-search" placeholder="Search by name..." />
-            </div>
-            <div class="search-field">
-                <select id="rarity-filter">
-                    <option value="">All Rarities</option>
-                    <option value="limited">Limited</option>
-                    <option value="legendary">Legendary</option>
-                    <option value="rare">Rare</option>
-                    <option value="epic">Epic</option>
-                    <option value="uncommon">Uncommon</option>
-                    <option value="common">Common</option>
-                </select>
-            </div>
+    <!-- Topbar Navigation -->
+    <div class="topbar">
+        <div class="logo">
+            <i class="fa-solid fa-shield-halved"></i>
+            War Tycoon Tools
         </div>
-        <div class="search-row">
-            <div class="search-field">
-                <select id="value-filter">
-                    <option value="">All Values</option>
-                    <option value="veryhigh">Very High Value</option>
-                    <option value="high">High Value</option>
-                    <option value="medium">Medium Value</option>
-                    <option value="low">Low Value</option>
-                    <option value="verylow">Very Low Value</option>
-                </select>
-            </div>
-            <div class="search-field">
-                <select id="demand-filter">
-                    <option value="">All Demand</option>
-                    <option value="veryhigh">Very High Demand</option>
-                    <option value="high">High Demand</option>
-                    <option value="medium">Medium Demand</option>
-                    <option value="low">Low Demand</option>
-                    <option value="verylow">Very Low Demand</option>
-                </select>
-            </div>
-        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Skin Values</a></li>
+            <li><a href="trade-calculator.html">Trade Calculator</a></li>
+        </ul>
+        <button class="menu-toggle" id="menu-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
     </div>
     
-    <div class="skins-grid" id="skins-grid">
-        <!-- Skins will be dynamically added here -->
-    </div>
-    
-    <!-- Modal for zoomed view -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close" id="modal-close">×</button>
-            <div class="modal-image-container">
-                <img src="" alt="" class="modal-image" id="modal-image">
+    <!-- Main Content -->
+    <div class="content">
+        <header>
+            <h1>War Tycoon Skin Values</h1>
+            <p class="subtitle">Browse and search your favorite game skins</p>
+        </header>
+        
+        <div class="search-container">
+            <div class="search-row">
+                <div class="search-field">
+                    <input type="text" id="name-search" placeholder="Search by name..." />
+                </div>
+                <div class="search-field">
+                    <div class="custom-select">
+                        <select id="rarity-filter">
+                            <option value="">All Rarities</option>
+                            <option value="limited">Limited</option>
+                            <option value="legendary">Legendary</option>
+                            <option value="rare">Rare</option>
+                            <option value="epic">Epic</option>
+                            <option value="uncommon">Uncommon</option>
+                            <option value="common">Common</option>
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-details" id="modal-details">
-                <!-- Modal details will be added here -->
+            <div class="search-row">
+                <div class="search-field">
+                    <div class="custom-select">
+                        <select id="value-filter">
+                            <option value="">All Values</option>
+                            <option value="veryhigh">Very High Value</option>
+                            <option value="high">High Value</option>
+                            <option value="medium">Medium Value</option>
+                            <option value="low">Low Value</option>
+                            <option value="verylow">Very Low Value</option>
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="search-field">
+                    <div class="custom-select">
+                        <select id="demand-filter">
+                            <option value="">All Demand</option>
+                            <option value="veryhigh">Very High Demand</option>
+                            <option value="high">High Demand</option>
+                            <option value="medium">Medium Demand</option>
+                            <option value="low">Low Demand</option>
+                            <option value="verylow">Very Low Demand</option>
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="skins-grid" id="skins-grid">
+            <!-- Skins will be dynamically added here -->
+        </div>
+        
+        <!-- Modal for zoomed view -->
+        <div class="modal-overlay" id="modal-overlay">
+            <div class="modal-content">
+                <button class="modal-close" id="modal-close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="modal-image-container">
+                    <img src="" alt="" class="modal-image" id="modal-image">
+                </div>
+                <div class="modal-details" id="modal-details">
+                    <!-- Modal details will be added here -->
+                </div>
+                <div class="trade-actions">
+                    <button class="trade-action-btn" id="add-to-trade">
+                        <i class="fa-solid fa-plus"></i> Add to Trade Calculator
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -574,6 +721,9 @@
     <footer>
         War Tycoon Skins Values © 2025 | All game assets belong to their respective owners
     </footer>
+    
+    <!-- Font Awesome Icons (using CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
     
     <script>
         // Sample skin data - in a real application, this would come from your database
@@ -602,7 +752,7 @@
                 image: "Assets/Skins/Beast.png",
                 rarity: "limited",
                 value: "medium",
-                demand: "medium", // Fixed capitalization
+                demand: "medium",
                 price: "300-450 🥇"
             },
             {
