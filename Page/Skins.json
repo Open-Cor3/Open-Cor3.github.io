@@ -200,14 +200,24 @@
       "avgPrice": 135
     },
     {
-      "id": 21,
-      "name": "Blue Gem",
-      "image": "Assets/Skins/BlueGem.png",
-      "rarity": "legendary",
-      "value": "low",
-      "demand": "medium",
-      "price": "150-200🥇",
-      "avgPrice": 175
-    }
+        "id": 21,
+        "name": "Blue Gem",
+        "image": "Assets/Skins/BlueGem.png",
+        "rarity": "legendary",
+        "value": "low",
+        "demand": "medium",
+        "price": "150-200🥇",
+        "avgPrice": 175
+      },
+      {
+        "id": 22,
+        "name": "Diamond",
+        "image": "Assets/Skins/Diamond.png",
+        "rarity": "limited",
+        "value": "veryhigh",
+        "demand": "high",
+        "price": "1.6k - 2k🥇",
+        "avgPrice": 1800
+      }
   ]
   
