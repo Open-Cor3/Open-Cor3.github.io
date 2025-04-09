@@ -1,97 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>War Tycoon Trade Calculator UI BETA BROKEN</title>
-    <link rel="stylesheet" href="CSS/Style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>War Tycoon Trade Calculator UI BETA BROKEN</title>
+  <link rel="stylesheet" href="CSS/Style.css">
 </head>
 <body>
-    <!-- Topbar Navigation -->
-    <div class="topbar">
-        <div class="logo">
-            <i class="fa-solid fa-shield-halved"></i>
-            War Tycoon Tools
+  <div class="topbar">
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i>
+      War Tycoon Tools
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Skin Values</a></li>
+      <li><a href="calculator.html" class="active">Trade Calculator</a></li>
+    </ul>
+    <button class="menu-toggle" id="menu-toggle">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+  <div class="content">
+    <header>
+      <h1>Trade Calculator</h1>
+      <p class="subtitle">Calculate the value of your trades to make better decisions</p>
+    </header>
+    <div class="trade-calculator">
+      <div class="trade-side" id="your-side">
+        <div class="trade-header">
+          <div class="side-title">You Give</div>
+          <div class="trade-total" id="your-total">0 🥇</div>
         </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Skin Values</a></li>
-            <li><a href="calculator.html" class="active">Trade Calculator</a></li>
-        </ul>
-        <button class="menu-toggle" id="menu-toggle">
-            <i class="fa-solid fa-bars"></i>
+        <div class="search-container">
+          <input type="text" class="search-input" id="your-search" placeholder="Search for skins to add..." />
+          <div class="search-results" id="your-search-results"></div>
+        </div>
+        <div class="trade-items" id="your-items"></div>
+      </div>
+      <div class="trade-middle">
+        <div class="vs-text">VS</div>
+        <button class="reset-button" id="reset-trade">
+          <i class="fa-solid fa-refresh"></i> Reset
         </button>
-    </div>
-    
-
-    <!-- Main Content -->
-    <div class="content">
-        <header>
-            <h1>Trade Calculator</h1>
-            <p class="subtitle">Calculate the value of your trades to make better decisions</p>
-        </header>
-        
-        <!-- Trade Calculator -->
-        <div class="trade-calculator">
-            <!-- Your Side -->
-            <div class="trade-side" id="your-side">
-                <div class="trade-header">
-                    <div class="side-title">You Give</div>
-                    <div class="trade-total" id="your-total">0 🥇</div>
-                </div>
-                <div class="search-container">
-                    <input type="text" class="search-input" id="your-search" placeholder="Search for skins to add..." />
-                    <div class="search-results" id="your-search-results"></div>
-                </div>
-                <div class="trade-items" id="your-items">
-                </div>
-            </div>
-            
-            <!-- Middle Section -->
-            <div class="trade-middle">
-                <div class="vs-text">VS</div>
-                <button class="reset-button" id="reset-trade">
-                    <i class="fa-solid fa-refresh"></i> Reset
-                </button>
-            </div>
-            
-            <!-- Their Side -->
-            <div class="trade-side" id="their-side">
-                <div class="trade-header">
-                    <div class="side-title">You Receive</div>
-                    <div class="trade-total" id="their-total">0 🥇</div>
-                </div>
-                <div class="search-container">
-                    <input type="text" class="search-input" id="their-search" placeholder="Search for skins to add..." />
-                    <div class="search-results" id="their-search-results"></div>
-                </div>
-                <div class="trade-items" id="their-items">
-                </div>
-            </div>
+      </div>
+      <div class="trade-side" id="their-side">
+        <div class="trade-header">
+          <div class="side-title">You Receive</div>
+          <div class="trade-total" id="their-total">0 🥇</div>
         </div>
-        
-        <!-- Trade Result -->
-        <div class="trade-result">
-            <div class="result-title">Trade Analysis</div>
-            <div class="trade-status" id="trade-status">Add items to analyze trade</div>
-            <div class="result-details">
-                <div class="result-side">
-                    <div class="result-value" id="your-value">0 🥇</div>
-                    <div class="result-label">Your Offer</div>
-                </div>
-                <div class="result-side">
-                    <div class="result-value" id="their-value">0 🥇</div>
-                    <div class="result-label">Their Offer</div>
-                </div>
-            </div>
-            <div class="result-difference" id="result-difference"></div>
+        <div class="search-container">
+          <input type="text" class="search-input" id="their-search" placeholder="Search for skins to add..." />
+          <div class="search-results" id="their-search-results"></div>
         </div>
+        <div class="trade-items" id="their-items"></div>
+      </div>
     </div>
-    
-    <footer>
-        War Tycoon Trade Calculator © 2025 | All game assets belong to their respective owners
-    </footer>
-    
-    <!-- Font Awesome Icons -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
-    <!-- Main JavaScript --> 
-    <script src="JavaScript/CalculatorJS.js"></script>  
+    <div class="trade-result">
+      <div class="result-title">Trade Analysis</div>
+      <div class="trade-status" id="trade-status">Add items to analyze trade</div>
+      <div class="result-details">
+        <div class="result-side">
+          <div class="result-value" id="your-value">0 🥇</div>
+          <div class="result-label">Your Offer</div>
+        </div>
+        <div class="result-side">
+          <div class="result-value" id="their-value">0 🥇</div>
+          <div class="result-label">Their Offer</div>
+        </div>
+      </div>
+      <div class="result-difference" id="result-difference"></div>
+    </div>
+  </div>
+  <footer>
+    War Tycoon Trade Calculator © 2025 | All game assets belong to their respective owners
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
+  <script src="JavaScript/CalculatorJS.js"></script>
+</body>
+</html>
