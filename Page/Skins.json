@@ -228,6 +228,16 @@
         "demand": "medium",
         "price": "1.2k - 1.6k🥇",
         "avgPrice": 1400
+      },
+      {
+        "id": 24,
+        "name": "Jelly Bean",
+        "image": "Assets/Skins/JellyBean.png",
+        "rarity": "limited",
+        "value": "veryhigh",
+        "demand": "medium",
+        "price": "1.2k - 1.5k🥇",
+        "avgPrice": 1350
       }
   ]
   
