@@ -215,9 +215,19 @@
         "image": "Assets/Skins/Diamond.png",
         "rarity": "limited",
         "value": "veryhigh",
-        "demand": "high",
+        "demand": "medium",
         "price": "1.6k - 2k🥇",
         "avgPrice": 1800
+      },
+      {
+        "id": 23,
+        "name": "Easter Egg",
+        "image": "Assets/Skins/EasterEgg.png",
+        "rarity": "limited",
+        "value": "veryhigh",
+        "demand": "medium",
+        "price": "1.2k - 1.6k🥇",
+        "avgPrice": 1400
       }
   ]
   
