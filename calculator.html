@@ -4,106 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>War Tycoon Trade Calculator</title>
-    <link rel="stylesheet" href="Page/Style.css">
 </head>
 <body>
-    <!-- Topbar Navigation -->
-    <div class="topbar">
-        <div class="logo">
-            <i class="fa-solid fa-shield-halved"></i>
-            War Tycoon Tools
-        </div>
-        <ul class="nav-links">
-            <li><a href="index.html">Skin Values</a></li>
-            <li><a href="calculator.html" class="active">Trade Calculator</a></li>
-        </ul>
-        <button class="menu-toggle" id="menu-toggle">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-    </div>
-    
+
+    <header>
+        War Tycoon Trade Calculator
+    </header>
+
     <!-- Main Content -->
-    <div class="content">
-        <header>
-            <h1>Trade Calculator</h1>
-            <p class="subtitle">Calculate the value of your trades to make better decisions</p>
-        </header>
-        
-        <!-- Trade Calculator -->
-        <div class="trade-calculator">
-            <!-- Your Side -->
-            <div class="trade-side" id="your-side">
-                <div class="trade-header">
-                    <div class="side-title">You Give</div>
-                    <div class="trade-total" id="your-total">0 🥇</div>
-                </div>
-                <div class="search-container">
-                    <select id="your-skin-dropdown" class="search-input">
-                        <option value="">Select a skin...</option>
-                    </select>
-                    <input type="number" id="your-medals" class="search-input" placeholder="Enter medals (optional)" />
-                    <button onclick="addSkinToYourSide()">Add Skin</button>
-                </div>
-                <div class="trade-items" id="your-items">
-                    <!-- Trade items will be added here -->
-                </div>
+    <div class="trade-calculator">
+        <!-- Your Side -->
+        <div class="trade-side" id="your-side">
+            <div class="trade-header">
+                <div class="side-title">You Give</div>
+                <div class="trade-total" id="your-total">0 🥇</div>
             </div>
-            
-            <!-- Middle Section -->
-            <div class="trade-middle">
-                <div class="vs-text">VS</div>
-                <button class="reset-button" id="reset-trade">
-                    <i class="fa-solid fa-refresh"></i> Reset
-                </button>
+            <div class="search-container">
+                <select id="your-skin-dropdown" class="search-input">
+                    <option value="">Select a skin...</option>
+                </select>
+                <input type="number" id="your-medals" class="search-input" placeholder="Enter medals (optional)" />
+                <button onclick="addSkinToYourSide()">Add Skin</button>
             </div>
-            
-            <!-- Their Side -->
-            <div class="trade-side" id="their-side">
-                <div class="trade-header">
-                    <div class="side-title">You Receive</div>
-                    <div class="trade-total" id="their-total">0 🥇</div>
-                </div>
-                <div class="search-container">
-                    <select id="their-skin-dropdown" class="search-input">
-                        <option value="">Select a skin...</option>
-                    </select>
-                    <input type="number" id="their-medals" class="search-input" placeholder="Enter medals (optional)" />
-                    <button onclick="addSkinToTheirSide()">Add Skin</button>
-                </div>
-                <div class="trade-items" id="their-items">
-                    <!-- Trade items will be added here -->
-                </div>
+            <div class="trade-items" id="your-items">
+                <!-- Trade items will be added here -->
             </div>
         </div>
-        
-        <!-- Trade Result -->
-        <div class="trade-result">
-            <div class="result-title">Trade Analysis</div>
-            <div class="trade-status" id="trade-status">Add items to analyze trade</div>
-            <div class="result-details">
-                <div class="result-side">
-                    <div class="result-value" id="your-value">0 🥇</div>
-                    <div class="result-label">Your Offer</div>
-                </div>
-                <div class="result-side">
-                    <div class="result-value" id="their-value">0 🥇</div>
-                    <div class="result-label">Their Offer</div>
-                </div>
+
+        <!-- Middle Section -->
+        <div class="trade-middle">
+            <div class="vs-text">VS</div>
+            <button class="reset-button" id="reset-trade">
+                Reset
+            </button>
+        </div>
+
+        <!-- Their Side -->
+        <div class="trade-side" id="their-side">
+            <div class="trade-header">
+                <div class="side-title">You Receive</div>
+                <div class="trade-total" id="their-total">0 🥇</div>
             </div>
-            <div class="result-difference" id="result-difference"></div>
+            <div class="search-container">
+                <select id="their-skin-dropdown" class="search-input">
+                    <option value="">Select a skin...</option>
+                </select>
+                <input type="number" id="their-medals" class="search-input" placeholder="Enter medals (optional)" />
+                <button onclick="addSkinToTheirSide()">Add Skin</button>
+            </div>
+            <div class="trade-items" id="their-items">
+                <!-- Trade items will be added here -->
+            </div>
         </div>
     </div>
-    
+
+    <!-- Trade Result -->
+    <div class="trade-result">
+        <div class="result-title">Trade Analysis</div>
+        <div class="trade-status" id="trade-status">Add items to analyze trade</div>
+        <div class="result-details">
+            <div class="result-side">
+                <div class="result-value" id="your-value">0 🥇</div>
+                <div class="result-label">Your Offer</div>
+            </div>
+            <div class="result-side">
+                <div class="result-value" id="their-value">0 🥇</div>
+                <div class="result-label">Their Offer</div>
+            </div>
+        </div>
+        <div class="result-difference" id="result-difference"></div>
+    </div>
+
     <footer>
         War Tycoon Trade Calculator © 2025 | All game assets belong to their respective owners
     </footer>
-    
+
     <!-- Font Awesome Icons (using CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
-    
+
     <script>
         let skins = [];
-        
+
         // Fetch skins data
         fetch("Page/Skins.json")
         .then(res => res.json())
@@ -122,105 +103,99 @@
         const theirItems = document.getElementById('their-items');
         const yourTotal = document.getElementById('your-total');
         const theirTotal = document.getElementById('their-total');
+        const yourValue = document.getElementById('your-value');
+        const theirValue = document.getElementById('their-value');
         const tradeStatus = document.getElementById('trade-status');
 
-        // Function to render skin dropdowns
+        // Render skin dropdowns
         function renderSkinDropdowns(skins) {
             skins.forEach(skin => {
-                const option = document.createElement('option');
+                let option = document.createElement("option");
                 option.value = skin.id;
-                option.textContent = `${skin.name} (${skin.price})`;
+                option.text = skin.name;
                 yourSkinDropdown.appendChild(option);
-                const optionClone = option.cloneNode(true);
-                theirSkinDropdown.appendChild(optionClone);
+                let optionForTheirSide = option.cloneNode(true);
+                theirSkinDropdown.appendChild(optionForTheirSide);
             });
         }
 
-        // Function to add skin to "Your Side"
+        // Add skin to your side
         function addSkinToYourSide() {
             const selectedSkinId = yourSkinDropdown.value;
             const medals = parseInt(yourMedalsInput.value) || 0;
+            if (!selectedSkinId) return;
 
-            if (!selectedSkinId) return alert('Please select a skin to add!');
+            const skin = skins.find(s => s.id == selectedSkinId);
+            const skinValue = skin.avgPrice + medals;
 
-            const skin = skins.find(skin => skin.id == selectedSkinId);
-            const tradeItem = document.createElement('div');
-            tradeItem.className = 'trade-item';
-            tradeItem.textContent = `${skin.name} (+${medals} 🥇)`;
-            tradeItem.dataset.id = skin.id;
-            tradeItem.dataset.medals = medals;
-            yourItems.appendChild(tradeItem);
-            updateTotal('your');
+            let itemDiv = document.createElement("div");
+            itemDiv.classList.add("trade-item");
+            itemDiv.innerText = `${skin.name} + ${medals} 🥇`;
+            yourItems.appendChild(itemDiv);
+
+            updateTotal("your", skinValue);
         }
 
-        // Function to add skin to "Their Side"
+        // Add skin to their side
         function addSkinToTheirSide() {
             const selectedSkinId = theirSkinDropdown.value;
             const medals = parseInt(theirMedalsInput.value) || 0;
+            if (!selectedSkinId) return;
 
-            if (!selectedSkinId) return alert('Please select a skin to add!');
+            const skin = skins.find(s => s.id == selectedSkinId);
+            const skinValue = skin.avgPrice + medals;
 
-            const skin = skins.find(skin => skin.id == selectedSkinId);
-            const tradeItem = document.createElement('div');
-            tradeItem.className = 'trade-item';
-            tradeItem.textContent = `${skin.name} (+${medals} 🥇)`;
-            tradeItem.dataset.id = skin.id;
-            tradeItem.dataset.medals = medals;
-            theirItems.appendChild(tradeItem);
-            updateTotal('their');
+            let itemDiv = document.createElement("div");
+            itemDiv.classList.add("trade-item");
+            itemDiv.innerText = `${skin.name} + ${medals} 🥇`;
+            theirItems.appendChild(itemDiv);
+
+            updateTotal("their", skinValue);
         }
 
-        // Function to update the total value
-        function updateTotal(side) {
-            let total = 0;
-            const items = side === 'your' ? yourItems.children : theirItems.children;
+        // Update the total value
+        function updateTotal(side, value) {
+            const totalElement = side === "your" ? yourTotal : theirTotal;
+            const valueElement = side === "your" ? yourValue : theirValue;
 
-            Array.from(items).forEach(item => {
-                const skinId = item.dataset.id;
-                const medals = parseInt(item.dataset.medals);
-                const skin = skins.find(skin => skin.id == skinId);
-                if (skin) {
-                    total += skin.avgPrice + medals;
-                }
-            });
+            const currentTotal = parseInt(totalElement.innerText) || 0;
+            const newTotal = currentTotal + value;
+            totalElement.innerText = newTotal + " 🥇";
+            valueElement.innerText = newTotal + " 🥇";
 
-            if (side === 'your') {
-                yourTotal.textContent = `${total} 🥇`;
+            updateTradeAnalysis();
+        }
+
+        // Update trade analysis
+        function updateTradeAnalysis() {
+            const yourOffer = parseInt(yourTotal.innerText) || 0;
+            const theirOffer = parseInt(theirTotal.innerText) || 0;
+
+            const difference = yourOffer - theirOffer;
+            const resultElement = document.getElementById('result-difference');
+
+            if (difference === 0) {
+                tradeStatus.innerText = "Trade is Fair";
+                resultElement.innerText = "No difference";
+            } else if (difference > 0) {
+                tradeStatus.innerText = "Your Offer is Better";
+                resultElement.innerText = `${difference} 🥇`;
             } else {
-                theirTotal.textContent = `${total} 🥇`;
+                tradeStatus.innerText = "Their Offer is Better";
+                resultElement.innerText = `${-difference} 🥇`;
             }
-
-            updateTradeStatus();
         }
 
-        // Function to update the trade status
-        function updateTradeStatus() {
-            const yourTotalValue = parseInt(yourTotal.textContent.replace(' 🥇', ''), 10);
-            const theirTotalValue = parseInt(theirTotal.textContent.replace(' 🥇', ''), 10);
-
-            const difference = yourTotalValue - theirTotalValue;
-
-            let status = 'Add items to analyze trade';
-            if (difference > 0) {
-                status = 'Your offer is higher';
-            } else if (difference < 0) {
-                status = 'Their offer is higher';
-            } else {
-                status = 'Trade is balanced';
-            }
-
-            tradeStatus.textContent = status;
-            document.getElementById('result-difference').textContent = `Difference: ${Math.abs(difference)} 🥇`;
-        }
-
-        // Reset trade button listener
+        // Reset Trade
         document.getElementById('reset-trade').addEventListener('click', () => {
-            yourItems.innerHTML = '';
-            theirItems.innerHTML = '';
-            yourTotal.textContent = '0 🥇';
-            theirTotal.textContent = '0 🥇';
-            tradeStatus.textContent = 'Add items to analyze trade';
-            document.getElementById('result-difference').textContent = '';
+            yourItems.innerHTML = "";
+            theirItems.innerHTML = "";
+            yourTotal.innerText = "0 🥇";
+            theirTotal.innerText = "0 🥇";
+            yourValue.innerText = "0 🥇";
+            theirValue.innerText = "0 🥇";
+            tradeStatus.innerText = "Add items to analyze trade";
+            resultElement.innerText = "";
         });
     </script>
 </body>
