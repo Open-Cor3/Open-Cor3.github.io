@@ -65,8 +65,8 @@
       "image": "Assets/Skins/Flowers.png",
       "rarity": "limited",
       "value": "high",
-      "demand": "medium",
-      "price": "1.4k - 2k 🥇",
+      "demand": "verylow",
+      "price": "1k - 1.2k 🥇",
       "avgPrice": 1700
     },
     {
@@ -104,10 +104,10 @@
       "name": "Money",
       "image": "Assets/Skins/Money.png",
       "rarity": "legendary",
-      "value": "high",
+      "value": "medium",
       "demand": "medium",
-      "price": "230-350 🥇",
-      "avgPrice": 290
+      "price": "200-240 🥇",
+      "avgPrice": 220
     },
     {
       "id": 12,
@@ -116,7 +116,7 @@
       "rarity": "legendary",
       "value": "medium",
       "demand": "medium",
-      "price": "200-300 🥇",
+      "price": "200-240 🥇",
       "avgPrice": 250
     },
     {
@@ -125,9 +125,9 @@
       "image": "Assets/Skins/Glamorous.png",
       "rarity": "limited",
       "value": "medium",
-      "demand": "medium",
-      "price": "500-700🥇",
-      "avgPrice": 600
+      "demand": "low",
+      "price": "400-600🥇",
+      "avgPrice": 500
     },
     {
       "id": 14,
