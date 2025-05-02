@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xtream Viewer</title>
+    <style>
+        :root {
+            --primary: #8e2de2;
+            --secondary: #4a00e0;
+            --dark: #121212;
+            --light: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--primary) 0%, rgba(138, 43, 226, 0) 70%);
+            opacity: 0.4;
+            filter: blur(30px);
+            z-index: 0;
+        }
+        
+        .form-container {
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-container::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, rgba(138, 43, 226, 0) 70%);
+            z-index: 0;
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--light);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(142, 45, 226, 0.5);
+        }
+        
+        button {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        button:hover::after {
+            opacity: 1;
+        }
+        
+        .content-display {
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+        
+        .content-display::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(74, 0, 224, 0.1) 0%, rgba(74, 0, 224, 0) 70%);
+            z-index: 0;
+            animation: rotate 25s linear infinite reverse;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            border: 1px solid transparent;
+        }
+        
+        .tab-content {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .category-grid, .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .category-item, .channel-item {
+            background-color: rgba(50, 50, 50, 0.7);
+            border-radius: 5px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .category-item:hover, .channel-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(70, 70, 70, 0.7);
+        }
+        
+        .category-item::before, .channel-item::before {
+            content: "";
+            position: absolute;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(142, 45, 226, 0.2) 0%, rgba(142, 45, 226, 0) 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .category-item:hover::before, .channel-item:hover::before {
+            opacity: 1;
+        }
+        
+        .channel-logo {
+            width: 100%;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        
+        .player-container {
+            margin-top: 1.5rem;
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        #videoPlayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .search-bar {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 2.5rem 0.75rem 0.75rem;
+        }
+        
+        .search-bar button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            padding: 0 1rem;
+        }
+        
+        .export-import {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .status-message {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        
+        .status-success {
+            background-color: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: #28a745;
+        }
+        
+        .status-error {
+            background-color: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.3);
+            color: #dc3545;
+        }
+
+        .glow-effect {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(142, 45, 226, 0.3) 0%, rgba(74, 0, 224, 0) 70%);
+            filter: blur(50px);
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(30px, 20px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .category-grid, .channel-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .channel-logo {
+                height: 70px;
+            }
+            
+            .tab {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="glow-effect" style="top: 20%; left: 20%;"></div>
+    <div class="glow-effect" style="top: 60%; left: 80%;"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Xtream Viewer</h1>
+        </div>
+        
+        <div class="form-container">
+            <form id="credentialsForm">
+                <div class="form-group">
+                    <label for="serverUrl">Server URL</label>
+                    <input type="text" id="serverUrl" placeholder="http://example.com:port" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Your password" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Connect</button>
+                </div>
+                <div class="export-import">
+                    <button type="button" id="exportBtn">Export Credentials</button>
+                    <button type="button" id="importBtn">Import Credentials</button>
+                    <input type="file" id="importFile" style="display: none;">
+                </div>
+                <div id="statusMessage" class="status-message"></div>
+            </form>
+        </div>
+        
+        <div id="contentDisplay" class="content-display">
+            <div class="tabs">
+                <div class="tab active" data-tab="live">Live TV</div>
+                <div class="tab" data-tab="movies">Movies</div>
+                <div class="tab" data-tab="series">Series</div>
+            </div>
+            
+            <div id="liveContent" class="tab-content active">
+                <div class="search-bar">
+                    <input type="text" id="liveSearch" placeholder="Search channels">
+                </div>
+                <div id="liveCategories" class="category-grid"></div>
+                <div id="liveChannels" class="channel-grid" style="display: none;"></div>
+                <div id="livePlayer" class="player-container" style="display: none;">
+                    <video id="videoPlayer" controls autoplay></video>
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+            
+            <div id="moviesContent" class="tab-content">
+                <div class="search-bar">
+                    <input type="text" id="movieSearch" placeholder="Search movies">
+                </div>
+                <div id="movieCategories" class="category-grid"></div>
+                <div id="moviesList" class="channel-grid" style="display: none;"></div>
+                <div id="moviePlayer" class="player-container" style="display: none;">
+                    <video id="movieVideoPlayer" controls autoplay></video>
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+            
+            <div id="seriesContent" class="tab-content">
+                <div class="search-bar">
+                    <input type="text" id="seriesSearch" placeholder="Search series">
+                </div>
+                <div id="seriesCategories" class="category-grid"></div>
+                <div id="seriesList" class="channel-grid" style="display: none;"></div>
+                <div id="seasonsList" class="category-grid" style="display: none;"></div>
+                <div id="episodesList" class="channel-grid" style="display: none;"></div>
+                <div id="seriesPlayer" class="player-container" style="display: none;">
+                    <video id="seriesVideoPlayer" controls autoplay></video>
+                    <div class="loading">Loading...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables to store API data
+        let serverData = {
+            url: '',
+            username: '',
+            password: ''
+        };
+        
+        // DOM elements
+        const credentialsForm = document.getElementById('credentialsForm');
+        const contentDisplay = document.getElementById('contentDisplay');
+        const statusMessage = document.getElementById('statusMessage');
+        const exportBtn = document.getElementById('exportBtn');
+        const importBtn = document.getElementById('importBtn');
+        const importFile = document.getElementById('importFile');
+        
+        // Tab elements
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Live TV elements
+        const liveCategories = document.getElementById('liveCategories');
+        const liveChannels = document.getElementById('liveChannels');
+        const livePlayer = document.getElementById('livePlayer');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const liveSearch = document.getElementById('liveSearch');
+        
+        // Movies elements
+        const movieCategories = document.getElementById('movieCategories');
+        const moviesList = document.getElementById('moviesList');
+        const moviePlayer = document.getElementById('moviePlayer');
+        const movieVideoPlayer = document.getElementById('movieVideoPlayer');
+        const movieSearch = document.getElementById('movieSearch');
+        
+        // Series elements
+        const seriesCategories = document.getElementById('seriesCategories');
+        const seriesList = document.getElementById('seriesList');
+        const seasonsList = document.getElementById('seasonsList');
+        const episodesList = document.getElementById('episodesList');
+        const seriesPlayer = document.getElementById('seriesPlayer');
+        const seriesVideoPlayer = document.getElementById('seriesVideoPlayer');
+        const seriesSearch = document.getElementById('seriesSearch');
+        
+        // Initialize event listeners
+        function initializeEvents() {
+            // Form submission
+            credentialsForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const serverUrl = document.getElementById('serverUrl').value.trim();
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                
+                connectToServer(serverUrl, username, password);
+            });
+            
+            // Tab switching
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabName = tab.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+            
+            // Export/Import functionality
+            exportBtn.addEventListener('click', exportCredentials);
+            importBtn.addEventListener('click', () => importFile.click());
+            importFile.addEventListener('change', importCredentials);
+            
+            // Search functionality
+            liveSearch.addEventListener('input', filterLiveChannels);
+            movieSearch.addEventListener('input', filterMovies);
+            seriesSearch.addEventListener('input', filterSeries);
+        }
+        
+        // Connect to Xtream server
+        function connectToServer(url, username, password) {
+            showStatusMessage('Connecting to server...', 'info');
+            
+            // Clean URL format if needed
+            let serverUrl = url;
+            if (serverUrl.endsWith('/')) {
+                serverUrl = serverUrl.slice(0, -1);
+            }
+            
+            // Store server data
+            serverData = {
+                url: serverUrl,
+                username: username,
+                password: password
+            };
+            
+            // Test connection by fetching user data
+            fetch(`${serverUrl}/player_api.php?username=${username}&password=${password}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Connection failed');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.user_info && data.user_info.auth) {
+                        showStatusMessage('Connected successfully!', 'success');
+                        contentDisplay.style.display = 'block';
+                        
+                        // Load initial data
+                        loadLiveCategories();
+                        loadMovieCategories();
+                        loadSeriesCategories();
+                    } else {
+                        showStatusMessage('Authentication failed. Please check your credentials.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showStatusMessage('Connection failed. Please check your server URL and credentials.', 'error');
+                });
+        }
+        
+        // Show status message
+        function showStatusMessage(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.style.display = 'block';
+            
+            // Remove previous classes
+            statusMessage.classList.remove('status-success', 'status-error');
+            
+            if (type === 'success') {
+                statusMessage.classList.add('status-success');
+            } else if (type === 'error') {
+                statusMessage.classList.add('status-error');
+            }
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                statusMessage.style.display = 'none';
+            }, 5000);
+        }
+        
+        // Switch tab
+        function switchTab(tabName) {
+            // Update tab buttons
+            tabs.forEach(tab => {
+                if (tab.getAttribute('data-tab') === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Update tab content
+            tabContents.forEach(content => {
+                if (content.id === `${tabName}Content`) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+        
+        // Export credentials to JSON file
+        function exportCredentials() {
+            const serverUrl = document.getElementById('serverUrl').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!serverUrl || !username || !password) {
+                showStatusMessage('Please fill in all credential fields before exporting', 'error');
+                return;
+            }
+            
+            const credentials = {
+                url: serverUrl,
+                username: username,
+                password: password
+            };
+            
+            const blob = new Blob([JSON.stringify(credentials, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'xtream_credentials.json';
+            document.body.appendChild(a);
+            a.click();
+            
+            // Cleanup
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatusMessage('Credentials exported successfully!', 'success');
+        }
+        
+        // Import credentials from JSON file
+        function importCredentials(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                try {
+                    const credentials = JSON.parse(event.target.result);
+                    
+                    if (credentials.url && credentials.username && credentials.password) {
+                        document.getElementById('serverUrl').value = credentials.url;
+                        document.getElementById('username').value = credentials.username;
+                        document.getElementById('password').value = credentials.password;
+                        
+                        showStatusMessage('Credentials imported successfully!', 'success');
+                    } else {
+                        throw new Error('Invalid credential format');
+                    }
+                } catch (error) {
+                    console.error('Error parsing credentials:', error);
+                    showStatusMessage('Invalid credential file format', 'error');
+                }
+            };
+            
+            reader.readAsText(file);
+            
+            // Reset file input
+            e.target.value = '';
+        }
+        
+        // Load Live TV categories
+        function loadLiveCategories() {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_live_categories`)
+                .then(response => response.json())
+                .then(categories => {
+                    liveCategories.innerHTML = '';
+                    
+                    categories.forEach(category => {
+                        const categoryItem = document.createElement('div');
+                        categoryItem.className = 'category-item';
+                        categoryItem.textContent = category.category_name;
+                        categoryItem.dataset.categoryId = category.category_id;
+                        
+                        categoryItem.addEventListener('click', () => loadLiveChannels(category.category_id));
+                        
+                        liveCategories.appendChild(categoryItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading live categories:', error);
+                    showStatusMessage('Failed to load live TV categories', 'error');
+                });
+        }
+        
+        // Load Live TV channels by category
+        function loadLiveChannels(categoryId) {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_live_streams&category_id=${categoryId}`)
+                .then(response => response.json())
+                .then(channels => {
+                    liveChannels.innerHTML = '';
+                    liveChannels.style.display = 'grid';
+                    liveCategories.style.display = 'none';
+                    livePlayer.style.display = 'none';
+                    
+                    // Store original channels list for search
+                    liveChannels.dataset.channels = JSON.stringify(channels);
+                    
+                    renderLiveChannels(channels);
+                })
+                .catch(error => {
+                    console.error('Error loading live channels:', error);
+                    showStatusMessage('Failed to load live TV channels', 'error');
+                });
+        }
+        
+        // Render live channels
+        function renderLiveChannels(channels) {
+            liveChannels.innerHTML = '';
+            
+            if (channels.length === 0) {
+                const noChannels = document.createElement('div');
+                noChannels.style.gridColumn = '1 / -1';
+                noChannels.style.textAlign = 'center';
+                noChannels.textContent = 'No channels found';
+                liveChannels.appendChild(noChannels);
+                return;
+            }
+            
+            channels.forEach(channel => {
+                const channelItem = document.createElement('div');
+                channelItem.className = 'channel-item';
+                
+                const logo = document.createElement('img');
+                logo.className = 'channel-logo';
+                logo.src = channel.stream_icon || '/api/placeholder/200/100';
+                logo.alt = channel.name;
+                logo.onerror = function() {
+                    this.src = '/api/placeholder/200/100';
+                };
+                
+                const name = document.createElement('div');
+                name.textContent = channel.name;
+                
+                channelItem.appendChild(logo);
+                channelItem.appendChild(name);
+                
+                channelItem.addEventListener('click', () => playLiveChannel(channel.stream_id));
+                
+                liveChannels.appendChild(channelItem);
+            });
+        }
+        
+        // Play live channel
+        function playLiveChannel(streamId) {
+            const { url, username, password } = serverData;
+            
+            livePlayer.style.display = 'block';
+            liveChannels.style.display = 'none';
+            
+            const streamUrl = `${url}/live/${username}/${password}/${streamId}.m3u8`;
+            videoPlayer.src = streamUrl;
+            videoPlayer.load();
+            videoPlayer.play().catch(error => {
+                console.error('Error playing stream:', error);
+            });
+            
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Channels';
+            backButton.style.marginTop = '1rem';
+            backButton.addEventListener('click', () => {
+                livePlayer.style.display = 'none';
+                liveChannels.style.display = 'grid';
+                
+                // Remove back button
+                if (backButton.parentNode) {
+                    backButton.parentNode.removeChild(backButton);
+                }
+            });
+            
+            // Check if button already exists
+            const existingButton = livePlayer.nextElementSibling;
+            if (existingButton && existingButton.tagName === 'BUTTON') {
+                existingButton.parentNode.removeChild(existingButton);
+            }
+            
+            livePlayer.parentNode.insertBefore(backButton, livePlayer.nextSibling);
+        }
+        
+        // Filter live channels
+        function filterLiveChannels() {
+            const searchTerm = liveSearch.value.toLowerCase();
+            
+            // Get original channels list
+            const channelsData = liveChannels.dataset.channels;
+            if (!channelsData) return;
+            
+            const channels = JSON.parse(channelsData);
+            
+            // Filter channels
+            const filteredChannels = channels.filter(channel => 
+                channel.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderLiveChannels(filteredChannels);
+        }
+        
+        // Load movie categories
+        function loadMovieCategories() {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_vod_categories`)
+                .then(response => response.json())
+                .then(categories => {
+                    movieCategories.innerHTML = '';
+                    
+                    categories.forEach(category => {
+                        const categoryItem = document.createElement('div');
+                        categoryItem.className = 'category-item';
+                        categoryItem.textContent = category.category_name;
+                        categoryItem.dataset.categoryId = category.category_id;
+                        
+                        categoryItem.addEventListener('click', () => loadMovies(category.category_id));
+                        
+                        movieCategories.appendChild(categoryItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading movie categories:', error);
+                    showStatusMessage('Failed to load movie categories', 'error');
+                });
+        }
+        
+        // Load movies by category
+        function loadMovies(categoryId) {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_vod_streams&category_id=${categoryId}`)
+                .then(response => response.json())
+                .then(movies => {
+                    moviesList.innerHTML = '';
+                    moviesList.style.display = 'grid';
+                    movieCategories.style.display = 'none';
+                    moviePlayer.style.display = 'none';
+                    
+                    // Store original movies list for search
+                    moviesList.dataset.movies = JSON.stringify(movies);
+                    
+                    renderMovies(movies);
+                })
+                .catch(error => {
+                    console.error('Error loading movies:', error);
+                    showStatusMessage('Failed to load movies', 'error');
+                });
+        }
+        
+        // Render movies
+        function renderMovies(movies) {
+            moviesList.innerHTML = '';
+            
+            if (movies.length === 0) {
+                const noMovies = document.createElement('div');
+                noMovies.style.gridColumn = '1 / -1';
+                noMovies.style.textAlign = 'center';
+                noMovies.textContent = 'No movies found';
+                moviesList.appendChild(noMovies);
+                return;
+            }
+            
+            movies.forEach(movie => {
+                const movieItem = document.createElement('div');
+                movieItem.className = 'channel-item';
+                
+                const poster = document.createElement('img');
+                poster.className = 'channel-logo';
+                poster.src = movie.stream_icon || '/api/placeholder/200/300';
+                poster.alt = movie.name;
+                poster.onerror = function() {
+                    this.src = '/api/placeholder/200/300';
+                };
+                
+                const name = document.createElement('div');
+                name.textContent = movie.name;
+                
+                movieItem.appendChild(poster);
+                movieItem.appendChild(name);
+                
+                movieItem.addEventListener('click', () => playMovie(movie.stream_id));
+                
+                moviesList.appendChild(movieItem);
+            });
+        }
+        
+        // Play movie
+        function playMovie(streamId) {
+            const { url, username, password } = serverData;
+            
+            moviePlayer.style.display = 'block';
+            moviesList.style.display = 'none';
+            
+            const streamUrl = `${url}/movie/${username}/${password}/${streamId}.mp4`;
+            movieVideoPlayer.src = streamUrl;
+            movieVideoPlayer.load();
+            movieVideoPlayer.play().catch(error => {
+                console.error('Error playing movie:', error);
+            });
+            
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Movies';
+            backButton.style.marginTop = '1rem';
+            backButton.addEventListener('click', () => {
+                moviePlayer.style.display = 'none';
+                moviesList.style.display = 'grid';
+                
+                // Remove back button
+                if (backButton.parentNode) {
+                    backButton.parentNode.removeChild(backButton);
+                }
+            });
+            
+            // Check if button already exists
+            const existingButton = moviePlayer.nextElementSibling;
+            if (existingButton && existingButton.tagName === 'BUTTON') {
+                existingButton.parentNode.removeChild(existingButton);
+            }
+            
+            moviePlayer.parentNode.insertBefore(backButton, moviePlayer.nextSibling);
+        }
+        
+        // Filter movies
+        function filterMovies() {
+            const searchTerm = movieSearch.value.toLowerCase();
+            
+            // Get original movies list
+            const moviesData = moviesList.dataset.movies;
+            if (!moviesData) return;
+            
+            const movies = JSON.parse(moviesData);
+            
+            // Filter movies
+            const filteredMovies = movies.filter(movie => 
+                movie.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderMovies(filteredMovies);
+        }
+        
+        // Load series categories
+        function loadSeriesCategories() {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_series_categories`)
+                .then(response => response.json())
+                .then(categories => {
+                    seriesCategories.innerHTML = '';
+                    
+                    categories.forEach(category => {
+                        const categoryItem = document.createElement('div');
+                        categoryItem.className = 'category-item';
+                        categoryItem.textContent = category.category_name;
+                        categoryItem.dataset.categoryId = category.category_id;
+                        
+                        categoryItem.addEventListener('click', () => loadSeries(category.category_id));
+                        
+                        seriesCategories.appendChild(categoryItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading series categories:', error);
+                    showStatusMessage('Failed to load series categories', 'error');
+                });
+        }
+        
+        // Load series by category
+        function loadSeries(categoryId) {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_series&category_id=${categoryId}`)
+                .then(response => response.json())
+                .then(series => {
+                    seriesList.innerHTML = '';
+                    seriesList.style.display = 'grid';
+                    seriesCategories.style.display = 'none';
+                    seasonsList.style.display = 'none';
+                    episodesList.style.display = 'none';
+                    seriesPlayer.style.display = 'none';
+                    
+                    // Store original series list for search
+                    seriesList.dataset.series = JSON.stringify(series);
+                    
+                    renderSeries(series);
+                })
+                .catch(error => {
+                    console.error('Error loading series:', error);
+                    showStatusMessage('Failed to load series', 'error');
+                });
+        }
+        
+        // Render series
+        function renderSeries(seriesArray) {
+            seriesList.innerHTML = '';
+            
+            if (seriesArray.length === 0) {
+                const noSeries = document.createElement('div');
+                noSeries.style.gridColumn = '1 / -1';
+                noSeries.style.textAlign = 'center';
+                noSeries.textContent = 'No series found';
+                seriesList.appendChild(noSeries);
+                return;
+            }
+            
+            seriesArray.forEach(series => {
+                const seriesItem = document.createElement('div');
+                seriesItem.className = 'channel-item';
+                
+                const poster = document.createElement('img');
+                poster.className = 'channel-logo';
+                poster.src = series.cover || '/api/placeholder/200/300';
+                poster.alt = series.name;
+                poster.onerror = function() {
+                    this.src = '/api/placeholder/200/300';
+                };
+                
+                const name = document.createElement('div');
+                name.textContent = series.name;
+                
+                seriesItem.appendChild(poster);
+                seriesItem.appendChild(name);
+                
+                seriesItem.addEventListener('click', () => loadSeasons(series.series_id));
+                
+                seriesList.appendChild(seriesItem);
+            });
+        }
+        
+        // Load seasons for a series
+        function loadSeasons(seriesId) {
+            const { url, username, password } = serverData;
+            
+            fetch(`${url}/player_api.php?username=${username}&password=${password}&action=get_series_info&series_id=${seriesId}`)
+                .then(response => response.json())
+                .then(seriesInfo => {
+                    seriesList.style.display = 'none';
+                    seasonsList.style.display = 'grid';
+                    episodesList.style.display = 'none';
+                    seriesPlayer.style.display = 'none';
+                    
+                    seasonsList.innerHTML = '';
+                    
+                    // Store series info for back navigation
+                    seasonsList.dataset.seriesId = seriesId;
+                    
+                    // Get seasons from info
+                    const seasons = seriesInfo.episodes || {};
+                    const seasonNumbers = Object.keys(seasons);
+                    
+                    if (seasonNumbers.length === 0) {
+                        const noSeasons = document.createElement('div');
+                        noSeasons.style.gridColumn = '1 / -1';
+                        noSeasons.style.textAlign = 'center';
+                        noSeasons.textContent = 'No seasons found';
+                        seasonsList.appendChild(noSeasons);
+                        
+                        // Add back button
+                        addBackButtonToSeasons();
+                        return;
+                    }
+                    
+                    seasonNumbers.forEach(seasonNumber => {
+                        const seasonItem = document.createElement('div');
+                        seasonItem.className = 'category-item';
+                        seasonItem.textContent = `Season ${seasonNumber}`;
+                        seasonItem.dataset.seasonNumber = seasonNumber;
+                        
+                        seasonItem.addEventListener('click', () => loadEpisodes(seriesId, seasonNumber, seasons[seasonNumber]));
+                        
+                        seasonsList.appendChild(seasonItem);
+                    });
+                    
+                    // Add back button
+                    addBackButtonToSeasons();
+                })
+                .catch(error => {
+                    console.error('Error loading seasons:', error);
+                    showStatusMessage('Failed to load seasons', 'error');
+                });
+        }
+        
+        // Add back button to seasons list
+        function addBackButtonToSeasons() {
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Series';
+            backButton.style.marginTop = '1rem';
+            backButton.addEventListener('click', () => {
+                seasonsList.style.display = 'none';
+                seriesList.style.display = 'grid';
+                
+                // Remove back button
+                if (backButton.parentNode) {
+                    backButton.parentNode.removeChild(backButton);
+                }
+            });
+            
+            // Check if button already exists
+            const existingButton = seasonsList.nextElementSibling;
+            if (existingButton && existingButton.tagName === 'BUTTON') {
+                existingButton.parentNode.removeChild(existingButton);
+            }
+            
+            seasonsList.parentNode.insertBefore(backButton, seasonsList.nextSibling);
+        }
+        
+        // Load episodes for a season
+        function loadEpisodes(seriesId, seasonNumber, episodes) {
+            seasonsList.style.display = 'none';
+            episodesList.style.display = 'grid';
+            seriesPlayer.style.display = 'none';
+            
+            episodesList.innerHTML = '';
+            
+            // Store season info for back navigation
+            episodesList.dataset.seriesId = seriesId;
+            episodesList.dataset.seasonNumber = seasonNumber;
+            
+            if (episodes.length === 0) {
+                const noEpisodes = document.createElement('div');
+                noEpisodes.style.gridColumn = '1 / -1';
+                noEpisodes.style.textAlign = 'center';
+                noEpisodes.textContent = 'No episodes found';
+                episodesList.appendChild(noEpisodes);
+                
+                // Add back button
+                addBackButtonToEpisodes();
+                return;
+            }
+            
+            episodes.forEach(episode => {
+                const episodeItem = document.createElement('div');
+                episodeItem.className = 'channel-item';
+                
+                const image = document.createElement('img');
+                image.className = 'channel-logo';
+                image.src = episode.info?.movie_image || '/api/placeholder/200/100';
+                image.alt = episode.title;
+                image.onerror = function() {
+                    this.src = '/api/placeholder/200/100';
+                };
+                
+                const title = document.createElement('div');
+                title.textContent = `Episode ${episode.episode_num}: ${episode.title || 'Unknown'}`;
+                
+                episodeItem.appendChild(image);
+                episodeItem.appendChild(title);
+                
+                episodeItem.addEventListener('click', () => playEpisode(episode.id));
+                
+                episodesList.appendChild(episodeItem);
+            });
+            
+            // Add back button
+            addBackButtonToEpisodes();
+        }
+        
+        // Add back button to episodes list
+        function addBackButtonToEpisodes() {
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Seasons';
+            backButton.style.marginTop = '1rem';
+            backButton.addEventListener('click', () => {
+                episodesList.style.display = 'none';
+                seasonsList.style.display = 'grid';
+                
+                // Remove back button
+                if (backButton.parentNode) {
+                    backButton.parentNode.removeChild(backButton);
+                }
+            });
+            
+            // Check if button already exists
+            const existingButton = episodesList.nextElementSibling;
+            if (existingButton && existingButton.tagName === 'BUTTON') {
+                existingButton.parentNode.removeChild(existingButton);
+            }
+            
+            episodesList.parentNode.insertBefore(backButton, episodesList.nextSibling);
+        }
+        
+        // Play episode
+        function playEpisode(episodeId) {
+            const { url, username, password } = serverData;
+            
+            episodesList.style.display = 'none';
+            seriesPlayer.style.display = 'block';
+            
+            const streamUrl = `${url}/series/${username}/${password}/${episodeId}.mp4`;
+            seriesVideoPlayer.src = streamUrl;
+            seriesVideoPlayer.load();
+            seriesVideoPlayer.play().catch(error => {
+                console.error('Error playing episode:', error);
+            });
+            
+            // Add back button
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Episodes';
+            backButton.style.marginTop = '1rem';
+            backButton.addEventListener('click', () => {
+                seriesPlayer.style.display = 'none';
+                episodesList.style.display = 'grid';
+                
+                // Remove back button
+                if (backButton.parentNode) {
+                    backButton.parentNode.removeChild(backButton);
+                }
+            });
+            
+            // Check if button already exists
+            const existingButton = seriesPlayer.nextElementSibling;
+            if (existingButton && existingButton.tagName === 'BUTTON') {
+                existingButton.parentNode.removeChild(existingButton);
+            }
+            
+            seriesPlayer.parentNode.insertBefore(backButton, seriesPlayer.nextSibling);
+        }
+        
+        // Filter series
+        function filterSeries() {
+            const searchTerm = seriesSearch.value.toLowerCase();
+            
+            // Get original series list
+            const seriesData = seriesList.dataset.series;
+            if (!seriesData) return;
+            
+            const seriesArray = JSON.parse(seriesData);
+            
+            // Filter series
+            const filteredSeries = seriesArray.filter(series => 
+                series.name.toLowerCase().includes(searchTerm)
+            );
+            
+            renderSeries(filteredSeries);
+        }
+        
+        // Initialize events on DOM load
+        document.addEventListener('DOMContentLoaded', initializeEvents);
+    </script>
+</body>
+</html>
